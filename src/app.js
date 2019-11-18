@@ -3,6 +3,8 @@ import { render } from 'react-dom';
 import MapGL, { Marker, NavigationControl } from 'react-map-gl';
 import ControlPanel from './control-panel';
 import Pin from './pin';
+const csv = require('csv-parser');
+const fs = require('fs');
 
 const TOKEN = 'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4M29iazA2Z2gycXA4N2pmbDZmangifQ.-g_vE53SD2WrJ6tFX7QHmA';
 
@@ -13,6 +15,32 @@ const navStyle = {
   padding: '10px'
 };
 
+const data = getMarkersData();
+
+
+function getMarkersData() {
+  fs.readFile('./app.csv', function (err, data) {
+
+    if (err) {
+      return console.log(err);
+    }
+
+    //Convert and store csv information into a buffer. 
+    bufferString = data.toString();
+    let markers = [];
+    let headers = arr[0].split(',');
+    for (let i = 1; i < arr.length; i++) {
+      let data = arr[i].split(',');
+      let obj = {};
+      for (let j = 0; j < data.length; j++) {
+        obj[headers[j].trim()] = data[j].trim();
+      }
+      markers.push(obj);
+    }
+    console.log(markers);
+    return markers
+  });
+}
 export default class App extends Component {
   constructor(props) {
     super(props);
@@ -26,7 +54,8 @@ export default class App extends Component {
       },
       marker: {
         latitude: 33.774282,
-        longitude: -84.439396
+        longitude: -84.439396,
+        type: "fish"
       },
       events: {}
     };
@@ -35,7 +64,6 @@ export default class App extends Component {
   _updateViewport = viewport => {
     this.setState({ viewport });
   };
-
   render() {
     const { viewport, marker } = this.state;
 
@@ -54,7 +82,7 @@ export default class App extends Component {
           offsetTop={-20}
           offsetLeft={-10}
         >
-          <Pin size={20} />
+          <Pin type={marker.type} />
         </Marker>
 
         <div className="nav" style={navStyle}>

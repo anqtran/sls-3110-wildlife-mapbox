@@ -47,6 +47,9 @@ const config = {
       }
     ]
   },
+  node: {
+    fs: 'empty'
+  },
 
   // Optional: Enables reading mapbox token from environment variable
   plugins: [new webpack.EnvironmentPlugin(['MapboxAccessToken'])]

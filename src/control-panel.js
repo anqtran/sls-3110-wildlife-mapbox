@@ -1,6 +1,6 @@
-import React, {PureComponent} from 'react';
+import React, { PureComponent } from 'react';
 
-const defaultContainer = ({children}) => <div className="control-panel">{children}</div>;
+const defaultContainer = ({ children }) => <div className="control-panel">{children}</div>;
 
 const eventNames = ['onDragStart', 'onDrag', 'onDragEnd'];
 
@@ -10,7 +10,7 @@ function round5(value) {
 
 export default class ControlPanel extends PureComponent {
   renderEvent = eventName => {
-    const {events = {}} = this.props;
+    const { events = {} } = this.props;
     const lngLat = events[eventName];
     return (
       <div key={eventName}>

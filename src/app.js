@@ -14,33 +14,40 @@ const navStyle = {
   left: 0,
   padding: '10px'
 };
-
-const data = getMarkersData();
-
-
-function getMarkersData() {
-  fs.readFile('./app.csv', function (err, data) {
-
-    if (err) {
-      return console.log(err);
-    }
-
-    //Convert and store csv information into a buffer. 
-    bufferString = data.toString();
-    let markers = [];
-    let headers = arr[0].split(',');
-    for (let i = 1; i < arr.length; i++) {
-      let data = arr[i].split(',');
-      let obj = {};
-      for (let j = 0; j < data.length; j++) {
-        obj[headers[j].trim()] = data[j].trim();
-      }
-      markers.push(obj);
-    }
-    console.log(markers);
-    return markers
-  });
-}
+const data = [
+  {
+    "key": 1,
+    "name": "tuna",
+    "latitude": 33.774282,
+    "longitude": -84.439396,
+    "type": "fish",
+    "description": "Tuna is a beautiful fish"
+  },
+  {
+    "key": 2,
+    "name": "cactus",
+    "latitude": 33.775100,
+    "longitude": -84.439390,
+    "type": "plant",
+    "description": "Cactus is very nice"
+  },
+  {
+    "key": 3,
+    "name": "mosquito",
+    "latitude": 33.774282,
+    "longitude": -84.439800,
+    "type": "insect",
+    "description": "Mosquito is bad"
+  },
+  {
+    "key": 4,
+    "name": "deer",
+    "latitude": 33.774282,
+    "longitude": -84.439050,
+    "type": "animal",
+    "description": "Deer is Cute"
+  },
+];
 export default class App extends Component {
   constructor(props) {
     super(props);
@@ -52,11 +59,6 @@ export default class App extends Component {
         bearing: 0,
         pitch: 0
       },
-      marker: {
-        latitude: 33.774282,
-        longitude: -84.439396,
-        type: "fish"
-      },
       events: {}
     };
   }
@@ -65,7 +67,19 @@ export default class App extends Component {
     this.setState({ viewport });
   };
   render() {
-    const { viewport, marker } = this.state;
+    const { viewport } = this.state;
+    const markerPoints = this.props.markers.map(function (marker) {
+      return (
+        <Marker key={marker.key}
+          longitude={marker.longitude}
+          latitude={marker.latitude}
+          offsetTop={-20}
+          offsetLeft={-10}
+        >
+          <Pin type={marker.type} />
+        </Marker>
+      );
+    });
 
     return (
       <MapGL
@@ -76,15 +90,7 @@ export default class App extends Component {
         onViewportChange={this._updateViewport}
         mapboxApiAccessToken={TOKEN}
       >
-        <Marker
-          longitude={marker.longitude}
-          latitude={marker.latitude}
-          offsetTop={-20}
-          offsetLeft={-10}
-        >
-          <Pin type={marker.type} />
-        </Marker>
-
+        {markerPoints}
         <div className="nav" style={navStyle}>
           <NavigationControl onViewportChange={this._updateViewport} />
         </div>
@@ -99,5 +105,5 @@ export default class App extends Component {
 }
 
 export function renderToDom(container) {
-  render(<App />, container);
+  render(<App markers={data} />, container);
 }

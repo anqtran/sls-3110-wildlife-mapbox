@@ -29,7 +29,6 @@ app.get('/get_data', function (req, res) {
             }
             markers.push(obj);
         }
-        console.log("sending back results");
         return res.status(200).send(markers);
     });
 });

@@ -15,13 +15,18 @@ const navStyle = {
   left: 0,
   padding: '10px'
 };
-function json2array(json) {
-  var result = [];
-  var keys = Object.keys(json);
-  keys.forEach(function (key) {
-    result.push(json[key]);
-  });
-  return result;
+function getSpeciesIcon(type) {
+  let iconType = animalIcon;
+  if (type == "insect") {
+    iconType = insectIcon
+  }
+  if (type == "fish") {
+    iconType = fishIcon
+  }
+  if (type == "plant") {
+    iconType = plantIcon
+  }
+  return iconType
 }
 export default class App extends Component {
   constructor(props) {
@@ -65,16 +70,7 @@ export default class App extends Component {
     const { viewport } = this.state;
 
     const markerPoints = this.state.markers != null ? (this.state.markers.map(function (marker, idx) {
-      let iconType = animalIcon;
-      if (marker.type == "insect") {
-        iconType = insectIcon
-      }
-      if (marker.type == "fish") {
-        iconType = fishIcon
-      }
-      if (marker.type == "plant") {
-        iconType = plantIcon
-      }
+      let iconType = getSpeciesIcon(marker.type)
       return (
         <Marker key={idx}
           longitude={parseFloat(marker.longitude)}

@@ -15,41 +15,14 @@ const navStyle = {
   left: 0,
   padding: '10px'
 };
-const data = [
-  {
-    "name": "tuna",
-    "latitude": 33.771482,
-    "longitude": -84.439396,
-    "type": "fish",
-    "description": "Tuna is a beautiful fish",
-    "image": "https://www.un.org/en/events/tunaday/assets/img/featured-image-index-sm.jpg"
-  },
-  {
-    "name": "cactus",
-    "latitude": 33.775650,
-    "longitude": -84.436490,
-    "type": "plant",
-    "description": "Cactus is very nice",
-    "image": "https://images.homedepot-static.com/productImages/2271ed2f-8ce4-4547-9cf2-a04beb1cb38d/svn/nearly-natural-artificial-plants-6328-64_1000.jpg"
-  },
-  {
-    "name": "mosquito",
-    "latitude": 33.774282,
-    "longitude": -84.439800,
-    "type": "insect",
-    "description": "Mosquito is bad",
-    "image": "https://cdn.orkin.com/images/mosquitoes/mosquito-illustration_2092x1660.jpg"
-  },
-  {
-    "name": "deer",
-    "latitude": 33.774682,
-    "longitude": -84.446650,
-    "type": "animal",
-    "description": "Deer is Cute",
-    "image": "https://images.pexels.com/photos/34231/antler-antler-carrier-fallow-deer-hirsch.jpg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-
-  },
-];
+function json2array(json) {
+  var result = [];
+  var keys = Object.keys(json);
+  keys.forEach(function (key) {
+    result.push(json[key]);
+  });
+  return result;
+}
 export default class App extends Component {
   constructor(props) {
     super(props);
@@ -61,10 +34,23 @@ export default class App extends Component {
         bearing: 0,
         pitch: 0
       },
-      selectedMarker: null
+      selectedMarker: null,
+      markers: null,
     };
     this.handleClick = this.handleClick.bind(this);
   }
+
+  componentDidMount() {
+    fetch('http://localhost:3000/get_data', { mode: 'cors' })
+      .then(result => {
+        return result.json();
+      })
+      .then(data => {
+        this.setState({ markers: data })
+      });
+  }
+
+
 
   _updateViewport = viewport => {
     this.setState({ viewport });
@@ -73,13 +59,12 @@ export default class App extends Component {
 
   handleClick(e, id) {
     e.preventDefault();
-    console.log(id)
-    console.log(this.props.markers[id])
-    this.setState({ selectedMarker: this.props.markers[id] })
+    this.setState({ selectedMarker: this.state.markers[id] })
   }
   render() {
     const { viewport } = this.state;
-    const markerPoints = this.props.markers.map(function (marker, idx) {
+
+    const markerPoints = this.state.markers != null ? (this.state.markers.map(function (marker, idx) {
       let iconType = animalIcon;
       if (marker.type == "insect") {
         iconType = insectIcon
@@ -92,8 +77,8 @@ export default class App extends Component {
       }
       return (
         <Marker key={idx}
-          longitude={marker.longitude}
-          latitude={marker.latitude}
+          longitude={parseFloat(marker.longitude)}
+          latitude={parseFloat(marker.latitude)}
           offsetTop={-20}
           offsetLeft={-10}
         >
@@ -102,11 +87,11 @@ export default class App extends Component {
             src={iconType}
             onClick={(e) => this.handleClick(e, idx)}
             alt="my image"
-            style={{ "pointer-events": "all" }}
+            style={{ "pointerEvents": "all" }}
           />
         </Marker>
       );
-    }.bind(this));
+    }.bind(this))) : null;
 
 
     return (
@@ -133,5 +118,5 @@ export default class App extends Component {
 }
 
 export function renderToDom(container) {
-  render(<App markers={data} />, container);
+  render(<App />, container);
 }

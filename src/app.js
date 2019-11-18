@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import { render } from 'react-dom';
 import MapGL, { Marker, NavigationControl } from 'react-map-gl';
 import ControlPanel from './control-panel';
-import Pin from './pin';
-const csv = require('csv-parser');
-const fs = require('fs');
+const animalIcon = require('../icons/animal.png');
+const insectIcon = require('../icons/insect.png');
+const fishIcon = require('../icons/fish.png');
+const plantIcon = require('../icons/plant.png');
 
 const TOKEN = 'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4M29iazA2Z2gycXA4N2pmbDZmangifQ.-g_vE53SD2WrJ6tFX7QHmA';
 
@@ -16,36 +17,41 @@ const navStyle = {
 };
 const data = [
   {
-    "key": 1,
+    "key": 0,
     "name": "tuna",
     "latitude": 33.774282,
     "longitude": -84.439396,
     "type": "fish",
-    "description": "Tuna is a beautiful fish"
+    "description": "Tuna is a beautiful fish",
+    "image": "https://www.un.org/en/events/tunaday/assets/img/featured-image-index-sm.jpg"
   },
   {
-    "key": 2,
+    "key": 1,
     "name": "cactus",
     "latitude": 33.775100,
     "longitude": -84.439390,
     "type": "plant",
-    "description": "Cactus is very nice"
+    "description": "Cactus is very nice",
+    "image": "https://images.homedepot-static.com/productImages/2271ed2f-8ce4-4547-9cf2-a04beb1cb38d/svn/nearly-natural-artificial-plants-6328-64_1000.jpg"
   },
   {
-    "key": 3,
+    "key": 2,
     "name": "mosquito",
     "latitude": 33.774282,
     "longitude": -84.439800,
     "type": "insect",
-    "description": "Mosquito is bad"
+    "description": "Mosquito is bad",
+    "image": "https://cdn.orkin.com/images/mosquitoes/mosquito-illustration_2092x1660.jpg"
   },
   {
-    "key": 4,
+    "key": 3,
     "name": "deer",
     "latitude": 33.774282,
     "longitude": -84.439050,
     "type": "animal",
-    "description": "Deer is Cute"
+    "description": "Deer is Cute",
+    "image": "https://images.pexels.com/photos/34231/antler-antler-carrier-fallow-deer-hirsch.jpg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+
   },
 ];
 export default class App extends Component {
@@ -59,27 +65,52 @@ export default class App extends Component {
         bearing: 0,
         pitch: 0
       },
-      events: {}
+      selectedMarker: null
     };
+    this.handleClick = this.handleClick.bind(this);
   }
 
   _updateViewport = viewport => {
     this.setState({ viewport });
   };
+
+
+  handleClick(e, id) {
+    e.preventDefault();
+    console.log(id)
+    console.log(this.props.markers[id])
+    this.setState({ selectedMarker: this.props.markers[id] })
+  }
   render() {
     const { viewport } = this.state;
     const markerPoints = this.props.markers.map(function (marker) {
+      let iconType = animalIcon;
+      if (marker.type == "insect") {
+        iconType = insectIcon
+      }
+      if (marker.type == "fish") {
+        iconType = fishIcon
+      }
+      if (marker.type == "plant") {
+        iconType = plantIcon
+      }
       return (
         <Marker key={marker.key}
           longitude={marker.longitude}
           latitude={marker.latitude}
           offsetTop={-20}
           offsetLeft={-10}
+
         >
-          <Pin type={marker.type} />
+          <button
+            onClick={(e) => this.handleClick(e, marker.key)}
+          >
+            <img className="icon" src={iconType} alt="my image" />
+          </button>
         </Marker>
       );
-    });
+    }.bind(this));
+
 
     return (
       <MapGL
@@ -97,7 +128,7 @@ export default class App extends Component {
 
         <ControlPanel
           containerComponent={this.props.containerComponent}
-          events={this.state.events}
+          selectedMarker={this.state.selectedMarker}
         />
       </MapGL>
     );

@@ -24,6 +24,18 @@ body {
   opacity: 85%;
 }
 img {
+  max-width: 150px;
+  max-height: 150px;
+}
+.icon {
   max-width:  6%;
   max-height:  6%;
+}
+button {
+  background-color: Transparent;
+  background-repeat:no-repeat;
+  border: none;
+  cursor:pointer;
+  overflow: hidden;
+  outline:none;
 }

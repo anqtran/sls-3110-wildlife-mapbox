@@ -36,33 +36,6 @@ export default class App extends Component {
     this.setState({ viewport });
   };
 
-  _logDragEvent(name, event) {
-    this.setState({
-      events: {
-        ...this.state.events,
-        [name]: event.lngLat
-      }
-    });
-  }
-
-  _onMarkerDragStart = event => {
-    this._logDragEvent('onDragStart', event);
-  };
-
-  _onMarkerDrag = event => {
-    this._logDragEvent('onDrag', event);
-  };
-
-  _onMarkerDragEnd = event => {
-    this._logDragEvent('onDragEnd', event);
-    this.setState({
-      marker: {
-        longitude: event.lngLat[0],
-        latitude: event.lngLat[1]
-      }
-    });
-  };
-
   render() {
     const { viewport, marker } = this.state;
 
@@ -80,10 +53,6 @@ export default class App extends Component {
           latitude={marker.latitude}
           offsetTop={-20}
           offsetLeft={-10}
-          draggable
-          onDragStart={this._onMarkerDragStart}
-          onDrag={this._onMarkerDrag}
-          onDragEnd={this._onMarkerDragEnd}
         >
           <Pin size={20} />
         </Marker>

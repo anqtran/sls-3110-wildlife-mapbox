@@ -6,6 +6,16 @@ const animalIcon = require('../icons/animal.png');
 const insectIcon = require('../icons/insect.png');
 const fishIcon = require('../icons/fish.png');
 const plantIcon = require('../icons/plant.png');
+const unknownIcon = require('../icons/unknown.png');
+const birdIcon = require('../icons/bird.png');
+const reptileIcon = require('../icons/reptile.png');
+
+const plantTypes = ["Plantae", "Fungi"];
+const animalTypes = ["Mammalia"];
+const reptileTypes = ["Amphibians", "Mollusca", "Reptilia"];
+const birdTypes = ["Aves"];
+const fishTypes = ["Actinopterygii", "Animalia", "Actinopterygii", "Actinopterygii"];
+const insectTypes = ["Arachnida", "Insecta"];
 
 const TOKEN = 'pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4M29iazA2Z2gycXA4N2pmbDZmangifQ.-g_vE53SD2WrJ6tFX7QHmA';
 
@@ -16,17 +26,25 @@ const navStyle = {
   padding: '10px'
 };
 function getSpeciesIcon(type) {
-  let iconType = animalIcon;
-  if (type == "insect") {
-    iconType = insectIcon
+  if (plantTypes.includes(type)) {
+    return plantIcon
   }
-  if (type == "fish") {
-    iconType = fishIcon
+  if (fishTypes.includes(type)) {
+    return fishIcon
   }
-  if (type == "plant") {
-    iconType = plantIcon
+  if (animalTypes.includes(type)) {
+    return animalIcon
   }
-  return iconType
+  if (reptileTypes.includes(type)) {
+    return reptileIcon
+  }
+  if (birdTypes.includes(type)) {
+    return birdIcon
+  }
+  if (insectTypes.includes(type)) {
+    return insectIcon
+  }
+  return unknownIcon
 }
 export default class App extends Component {
   constructor(props) {
@@ -70,7 +88,7 @@ export default class App extends Component {
     const { viewport } = this.state;
 
     const markerPoints = this.state.markers != null ? (this.state.markers.map(function (marker, idx) {
-      let iconType = getSpeciesIcon(marker.type)
+      let iconType = getSpeciesIcon(marker.iconic_taxon_name)
       return (
         <Marker key={idx}
           longitude={parseFloat(marker.longitude)}

@@ -17,25 +17,22 @@ const navStyle = {
 };
 const data = [
   {
-    "key": 0,
     "name": "tuna",
-    "latitude": 33.774282,
+    "latitude": 33.771482,
     "longitude": -84.439396,
     "type": "fish",
     "description": "Tuna is a beautiful fish",
     "image": "https://www.un.org/en/events/tunaday/assets/img/featured-image-index-sm.jpg"
   },
   {
-    "key": 1,
     "name": "cactus",
-    "latitude": 33.775100,
-    "longitude": -84.439390,
+    "latitude": 33.775650,
+    "longitude": -84.436490,
     "type": "plant",
     "description": "Cactus is very nice",
     "image": "https://images.homedepot-static.com/productImages/2271ed2f-8ce4-4547-9cf2-a04beb1cb38d/svn/nearly-natural-artificial-plants-6328-64_1000.jpg"
   },
   {
-    "key": 2,
     "name": "mosquito",
     "latitude": 33.774282,
     "longitude": -84.439800,
@@ -44,10 +41,9 @@ const data = [
     "image": "https://cdn.orkin.com/images/mosquitoes/mosquito-illustration_2092x1660.jpg"
   },
   {
-    "key": 3,
     "name": "deer",
-    "latitude": 33.774282,
-    "longitude": -84.439050,
+    "latitude": 33.774682,
+    "longitude": -84.446650,
     "type": "animal",
     "description": "Deer is Cute",
     "image": "https://images.pexels.com/photos/34231/antler-antler-carrier-fallow-deer-hirsch.jpg?auto=compress&cs=tinysrgb&dpr=1&w=500"
@@ -61,7 +57,7 @@ export default class App extends Component {
       viewport: {
         latitude: 33.774282,
         longitude: -84.439396,
-        zoom: 18,
+        zoom: 16,
         bearing: 0,
         pitch: 0
       },
@@ -83,7 +79,7 @@ export default class App extends Component {
   }
   render() {
     const { viewport } = this.state;
-    const markerPoints = this.props.markers.map(function (marker) {
+    const markerPoints = this.props.markers.map(function (marker, idx) {
       let iconType = animalIcon;
       if (marker.type == "insect") {
         iconType = insectIcon
@@ -95,18 +91,19 @@ export default class App extends Component {
         iconType = plantIcon
       }
       return (
-        <Marker key={marker.key}
+        <Marker key={idx}
           longitude={marker.longitude}
           latitude={marker.latitude}
           offsetTop={-20}
           offsetLeft={-10}
-
         >
-          <button
-            onClick={(e) => this.handleClick(e, marker.key)}
-          >
-            <img className="icon" src={iconType} alt="my image" />
-          </button>
+          <img
+            className="icon"
+            src={iconType}
+            onClick={(e) => this.handleClick(e, idx)}
+            alt="my image"
+            style={{ "pointer-events": "all" }}
+          />
         </Marker>
       );
     }.bind(this));

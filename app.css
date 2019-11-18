@@ -6,7 +6,10 @@ body {
   width: 100vw;
   height: 100vh;
 }
-
+.mapboxgl-marker {
+  left: 10px;
+  top: 20px;
+}
 .control-panel {
   position: absolute;
   top: 0;
@@ -27,15 +30,11 @@ img {
   max-width: 150px;
   max-height: 150px;
 }
+
+img:hover {
+  cursor: pointer
+}
 .icon {
   max-width:  6%;
   max-height:  6%;
-}
-button {
-  background-color: Transparent;
-  background-repeat:no-repeat;
-  border: none;
-  cursor:pointer;
-  overflow: hidden;
-  outline:none;
 }

@@ -15,16 +15,22 @@ function MarkerItem(props) {
           <strong>Type:</strong> {item.type}
         </div>
         <div>
-          <strong>Latitude:</strong> {item.latitude}
+          <strong>Location:</strong> ({item.latitude}, {item.longitude})
         </div>
         <div>
-          <strong>Longitude:</strong> {item.longitude}
+          <strong>Species:</strong> {item.species_guess ? item.species_guess : "unknown"}
         </div>
         <div>
-          <strong>Description:</strong> {item.description}
+          <strong>Scientific Name:</strong> {item.scientific_name ? item.scientific_name : "unknown"}
         </div>
         <div>
-          <img src={item.image} />
+          <strong>Common Name:</strong> {item.common_name ? item.common_name : "unknown"}
+        </div>
+        <div>
+          <strong>Taxonomy Name:</strong> {item.iconic_taxon_name ? item.iconic_taxon_name : "unknown"}
+        </div>
+        <div>
+          <img src={item.image_url} />
         </div>
       </div>
     );

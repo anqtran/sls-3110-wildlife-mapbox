@@ -1,10 +1,10 @@
-#SLS 3110 Wildlife Mapping
+# SLS 3110 Wildlife Mapping
 
 App to visualize wildlife within Grove Park area. Users can click on the symbol on the map to view details about the observation.
 
 App gets data from data.csv file to display on mapbox. Creatures in the data file is categorized into 5 types represent by 5 different symbols.
 
-#Installation Instruction
+# Installation Instruction
   - Clone the project from github
   - Download Nodejs[https://nodejs.org/en/download/] if needed.
   - From the root folder run ``npm install``

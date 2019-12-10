@@ -5,14 +5,14 @@ App to visualize wildlife within Grove Park area. Users can click on the symbol 
 App gets data from data.csv file to display on mapbox. Creatures in the data file is categorized into 5 types represent by 5 different symbols.
 
 #Installation Instruction
-  Clone the project from github
-  Download Nodejs[https://nodejs.org/en/download/] if needed
-  From the root folder run ``npm install``
-  Run 
-      ``npm start``
-  Open another terminal run 
-      ``node server.js``
-  The web is now available at localhost:3000
+  -Clone the project from github
+  -Download Nodejs[https://nodejs.org/en/download/] if needed.
+  -From the root folder run ``npm install``
+  -Run 
+      ```npm start```
+  -Open another terminal run 
+      ```node server.js```
+  -The web is now available at localhost:3000
 
 <img width="1440" alt="Screen Shot 2019-11-18 at 7 04 03 PM" src="https://user-images.githubusercontent.com/35791349/69104395-1381b200-0a36-11ea-922d-2e1fc0ca10ec.png">
 <img width="1440" alt="Screen Shot 2019-11-18 at 7 03 51 PM" src="https://user-images.githubusercontent.com/35791349/69104396-1381b200-0a36-11ea-8cba-c4b62f43b121.png">
